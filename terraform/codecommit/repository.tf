@@ -4,6 +4,6 @@ resource "aws_codecommit_repository" "backend-server" {
 }
 
 resource "aws_codecommit_repository" "frontend-server" {
-  repository_name = "MyTestRepository"
+  repository_name = "frontend-server"
   description     = "Frontend demo"
 }
