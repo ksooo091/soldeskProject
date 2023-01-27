@@ -15,4 +15,5 @@ resource "aws_internet_gateway" "sold-igw" {
         Name = "sold-igw"
     }
 }
-
+.
+#################################안녕하세요.
