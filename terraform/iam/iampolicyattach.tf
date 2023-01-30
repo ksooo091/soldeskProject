@@ -4,18 +4,18 @@ resource "aws_iam_policy_attachment" "kiwon_policy" {
    policy_arn =  "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
  }
 
-resource "aws_iam_policy_attachment" "user_joonpyo_watchlog_policy" {
+resource "aws_iam_policy_attachment" "joonpyo_watchlog_policy" {
   name       = "user_joonpyo_watchlog_policy"
   users      = [aws_iam_user.user_joonpyo.name]
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
 
-resource "aws_iam_policy_attachment" "user_joonpyo_waf_policy" {
-  name       = "test-user_joonpyo_waf_policy"
+resource "aws_iam_policy_attachment" "joonpyo_waf_policy" {
+  name       = "user_joonpyo_waf_policy"
   users      = [aws_iam_user.user_joonpyo.name]
   policy_arn = "arn:aws:iam::aws:policy/AWSWAFFullAccess"
 }
-resource "aws_iam_policy_attachment" "user_joonpyo_watch_policy" {
+resource "aws_iam_policy_attachment" "joonpyo_watch_policy" {
   name       = "user_joonpyo_watch_policy"
   users      = [aws_iam_user.user_joonpyo.name]
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
