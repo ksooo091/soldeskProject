@@ -58,7 +58,3 @@ resource "aws_iam_user_login_profile" "user_kiwon" {
   user    = aws_iam_user.user_kiwon.name
   password_reset_required = true
 }
-
-output "password" {
-  value = aws_iam_user_login_profile.user_gilsu.encrypted_password
-}
