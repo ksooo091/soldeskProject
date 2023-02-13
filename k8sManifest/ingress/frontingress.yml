@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: appingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/target-type: "ip"
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/subnets: subnet-08457df9cd9b6253b, subnet-0caddde8e8f2a6657
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-northeast-2:207834583394:certificate/eb33600b-60f8-4593-96ff-1ca055424381"      
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  rules:
+  - host: front.jecheolso.site
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo-front-svc
+            port: 
+              number: 80
