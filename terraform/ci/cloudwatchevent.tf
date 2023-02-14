@@ -44,7 +44,18 @@ resource "aws_cloudwatch_event_rule" "front_watch_rule" {
 resource "aws_iam_role" "cwe_role" {
   name = "crw-role-repo"
   assume_role_policy = <<EOF
-  
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "events.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
 
-
+EOF
 }
