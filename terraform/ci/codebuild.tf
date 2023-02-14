@@ -51,6 +51,7 @@ resource "aws_iam_role_policy" "codebuild_role_policy" {
                 "${aws_codecommit_repository.backend-server.arn}"
             ],
             "Action": [
+                
                 "codecommit:GitPull"
             ]
         },
