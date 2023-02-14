@@ -7,7 +7,7 @@ resource "aws_cloudwatch_event_target" "front_target" {
   target_id = "frontpipe-target"
   rule      = aws_cloudwatch_event_rule.front_watch_rule.name
   arn       = aws_codepipeline.front_pipeline.arn
-  role_arn = aws_iam_role.codepipeline_role.arn  
+  role_arn  = aws_iam_role.cwe_role.arn  
 
 }
 
@@ -58,4 +58,26 @@ resource "aws_iam_role" "cwe_role" {
 }
 
 EOF
+}
+
+resource "aws_iam_policy" "cwe_policy" {
+  name = "cwe_policy"
+  role = aws_iam_role.cwe_role.id
+  policy = <<EOF
+    {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "codepipeline:StartPipelineExecution"
+            ],
+            "Resource": [
+                aws_codepipeline.front_pipeline.arn
+            ]
+        }
+    ]
+}
+
+  EOF
 }
