@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: appingress
+  name: backingress
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/target-type: "ip"
@@ -13,13 +13,13 @@ metadata:
     alb.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   rules:
-  - host: front.jecheolso.site
+  - host: back.jecheolso.site
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: demo-front-svc
+            name: demo-back-svc
             port: 
               number: 80
