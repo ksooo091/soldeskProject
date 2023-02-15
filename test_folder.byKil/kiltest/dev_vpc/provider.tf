@@ -1,13 +1,21 @@
 provider "aws" {
     region = "ap-northeast-2"
-    access_key = "AKIARL5BV3NS3G5TD5WA"
-    secret_key = "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"
+    access_key = "AKIAZT3IHXRVP3XXFAFP"
+    secret_key = "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"
 }
+
+
 terraform {
   required_providers {
-    aws = {
-    source = "hashicorp/aws"
-    version = "4.52.0"
+    kubectl = {
+      source = "gavinbunney/kubectl"
+      version = ">= 1.14.0"
+    }
+    helm = {
+      source = "hashicorp/helm"
+      version = ">= 2.6.0"
     }
   }
+
+  required_version = "~> 1.0"
 }

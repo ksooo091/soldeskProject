@@ -32,7 +32,7 @@ resource "aws_instance" "bastion_a" {
     ami = "ami-013218fccb68a90d4"
     availability_zone = "ap-northeast-2a"
     instance_type = "t2.micro"
-    key_name = "NocheKey"
+#key_name = "NocheKey"
 
     vpc_security_group_ids = [
         "${aws_security_group.bastion.id}",
