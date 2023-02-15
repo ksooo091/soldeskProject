@@ -6,7 +6,6 @@ resource "aws_instance" "bastion_a" {
 
     vpc_security_group_ids = [
         "${aws_security_group.bastion.id}",
-    #    "${aws_default_security_group.bastion_iron.id}"
     ]
 
     subnet_id = "${aws_subnet.public_a.id}"

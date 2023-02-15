@@ -1,7 +1,0 @@
-########
-1. provider 빈칸 설정
-2. bastion key name 설정
-3. 사용하려는 AWS 계정에 AmazonEKSClusterPolicy 권한 추가 필수 (eks)
-
-
-나머지는 확인 부탁 !

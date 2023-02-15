@@ -30,13 +30,7 @@ resource "aws_security_group" "public-SG" {
 }
 
 
-##Security private
-/*resource "aws_security_group" "private-all" {
-  vpc_id = aws_vpc.iron.id
-  name   = "private_all"
-  description = "private_all"
-}
-*/
+
 
 # Security Group
 ## private Seucurity Group
@@ -58,13 +52,6 @@ resource "aws_security_group" "private-eks" {
     protocol = "tcp"
     to_port = 22
   }
-  /*egress {
-    cidr_blocks = [ "0.0.0.0/0" ]
-    from_port = 22
-    protocol = "tcp"
-    to_port = 22
-  }
-*/
 }
 ##길수님이 원하시는 요청 (RDS 가 node SG 허가)
 ## private Seucurity Group
@@ -72,19 +59,6 @@ resource "aws_security_group" "private-rds" {
   name = "private-rds"
   description = "rds-private"
   vpc_id = "${aws_vpc.iron.id}"  # 이건 올바른 vpc id 로 되었음.
-  /*ingress = [ {
-      cidr_blocks = null
-      description = null
-      from_port = 0          # MySQL/Aurora 로 설정해야함. (TCP /3306)
-      ipv6_cidr_blocks = null
-      prefix_list_ids = null
-      protocol = -1
-      security_groups = null     # EC2 보안그룹으로 바꿔야 함. sg-0d50317b04c77642d (eks-cluster-sg-iron)
-      # rds SG\ sg-04b981c82ae6c1771 (생성한 보안그룹 ID)	private-rds
-      self = false
-      to_port = 0
-  } ]
-  */
 }
 
 

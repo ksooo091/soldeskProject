@@ -86,36 +86,3 @@ resource "aws_route_table_association" "eks_private_c" {
 
 
 
-
-##########RDS
-
-# endpoint EKS 에 RDS가 있는 private_a 와 private_c 와 앤드포인트 연결
-/*
-
-resource "aws_vpc_endpoint" "eks_a" {
-    vpc_id  = aws_vpc.iron.id
-    service_name = "com.amazonaws.ap-northeast-2.rds"
-    subnet_ids = [aws_subnet.private_eks1.id]
-    vpc_endpoint_type = "Interface"
-}
-
-resource "aws_vpc_endpoint_subnet_association" "eks_end_a" {
-    vpc_endpoint_id = "${aws_vpc_endpoint.eks_a.id}"
-    subnet_id = "${aws_subnet.private_a.id}"
-}
-
-
-
-resource "aws_vpc_endpoint" "eks_c" {
-    vpc_id  = aws_vpc.iron.id
-    service_name = "com.amazonaws.ap-northeast-2.rds"
-    subnet_ids = [aws_subnet.private_eks2.id]
-    vpc_endpoint_type = "Interface"
-}
-
-resource "aws_vpc_endpoint_subnet_association" "eks_end_c" {
-    vpc_endpoint_id = "${aws_vpc_endpoint.eks_c.id}"
-    subnet_id = "${aws_subnet.private_c.id}"
-}
-
-*/
