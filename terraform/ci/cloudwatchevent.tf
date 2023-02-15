@@ -8,7 +8,6 @@ resource "aws_cloudwatch_event_target" "front_target" {
   rule      = aws_cloudwatch_event_rule.front_watch_rule.name
   arn       = aws_codepipeline.front_pipeline.arn
   role_arn  = aws_iam_role.cwe_role.arn  
-
 }
 
 resource "aws_cloudwatch_event_rule" "front_watch_rule" {
@@ -41,6 +40,47 @@ resource "aws_cloudwatch_event_rule" "front_watch_rule" {
   })
 }
 
+
+
+resource "aws_cloudwatch_event_target" "back_target" {
+  target_id = "backpipe-target"
+  rule      = aws_cloudwatch_event_rule.front_watch_rule.name
+  arn       = aws_codepipeline.back_pipeline.arn
+  role_arn  = aws_iam_role.cwe_role.arn  
+}
+
+resource "aws_cloudwatch_event_rule" "back_watch_rule" {
+  name        = "back-watch-rule"
+  description = "back code repo watch rule"
+
+  event_pattern = jsonencode(
+  {
+    "source": [
+      "aws.codecommit"
+    ],
+    "detail-type": [
+      "CodeCommit Repository State Change"
+    ],
+    "resources": [
+      aws_codecommit_repository.backend-server.arn
+    ],
+    "detail": {
+      "event": [
+        "referenceCreated",
+        "referenceUpdated"
+      ],
+      "referenceType": [
+        "branch"
+      ],
+      "referenceName": [
+        "main"
+      ]
+    }
+  })
+}
+
+
+
 resource "aws_iam_role" "cwe_role" {
   name = "crw-role-repo"
   assume_role_policy = <<EOF
@@ -60,10 +100,10 @@ resource "aws_iam_role" "cwe_role" {
 EOF
 }
 
-resource "aws_iam_policy" "cwe_policy" {
+resource "aws_iam_role_policy" "cwe_policy" {
   name = "cwe_policy"
   role = aws_iam_role.cwe_role.id
-  policy = <<EOF
+  policy = jsonencode(
     {
     "Version": "2012-10-17",
     "Statement": [
@@ -73,11 +113,12 @@ resource "aws_iam_policy" "cwe_policy" {
                 "codepipeline:StartPipelineExecution"
             ],
             "Resource": [
-                aws_codepipeline.front_pipeline.arn
+               aws_codepipeline.front_pipeline.arn,
+               aws_codepipeline.back_pipeline.arn
             ]
         }
     ]
 }
 
-  EOF
+  )
 }

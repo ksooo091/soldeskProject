@@ -51,13 +51,13 @@ resource "aws_iam_role_policy" "codebuild_role_policy" {
                 "${aws_codecommit_repository.backend-server.arn}"
             ],
             "Action": [
-                
                 "codecommit:GitPull"
             ]
         },
     {
       "Effect": "Allow",
       "Action": [
+        "s3:*",
         "codebuild:*",
         "cloudwatch:GetMetricStatistics",
         "ec2:DescribeVpcs",

@@ -1,9 +1,11 @@
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "codepipeline_bucket-1344574"
+  bucket = "codepipeline-bucket-1344574"
 }
 
-resource "aws_codepipeline" "codepipeline" {
-  name     = "tf-test-pipeline"
+#front
+
+resource "aws_codepipeline" "front_pipeline" {
+  name     = "front-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
@@ -19,9 +21,10 @@ resource "aws_codepipeline" "codepipeline" {
       name             = "Source"
       category         = "Source"
       owner            = "AWS"
-      provider         = "CODECOMMIT"
+      provider         = "CodeCommit"
       version          = "1"
 
+      output_artifacts = ["source_output"]
       configuration = {
         BranchName: "main", 
         PollForSourceChanges: "false",
@@ -38,15 +41,68 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
-
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.codebuild_front_build.name
+        ProjectName = "front_demo_build"
       }
     }
   }
 }
+
+#back
+
+resource "aws_codepipeline" "back_pipeline" {
+  name     = "back-pipeline"
+  role_arn = aws_iam_role.codepipeline_role.arn
+
+  artifact_store {
+    location = aws_s3_bucket.codepipeline_bucket.bucket
+    type     = "S3"
+
+  }
+
+  stage {
+    name = "Source"
+
+    action {
+      name             = "Source"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeCommit"
+      version          = "1"
+
+      output_artifacts = ["source_output"]
+      configuration = {
+        BranchName: "main", 
+        PollForSourceChanges: "false",
+        RepositoryName: aws_codecommit_repository.backend-server.repository_name
+      }
+    }
+  }
+
+  stage {
+    name = "Build"
+
+    action {
+      name             = "Build"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = aws_codebuild_project.codebuild_project_back.name
+      }
+    }
+  }
+}
+
+
 
 
 
