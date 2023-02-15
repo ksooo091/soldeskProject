@@ -42,23 +42,23 @@ resource "aws_subnet" "private_c" {
 
 ####EKS PRIVATE SUBNET
 
-resource "aws_subnet" "private_EKS1" {
+resource "aws_subnet" "private_eks1" {
     vpc_id = "${aws_vpc.iron.id}"
     availability_zone = "ap-northeast-2a"
     cidr_block = "172.20.103.0/24"
 
     tags = {
-        Name = "private_EKS2"
+        Name = "private_eks1"
     }
 }
 
-resource "aws_subnet" "private_EKS2" {
+resource "aws_subnet" "private_eks2" {
     vpc_id = "${aws_vpc.iron.id}"
-    availability_zone = "ap-northeast-2a"
+    availability_zone = "ap-northeast-2c"
     cidr_block = "172.20.104.0/24"
 
     tags = {
-        Name = "private_EKS2"
+        Name = "private_eks2"
     }
 }
 

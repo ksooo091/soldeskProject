@@ -8,11 +8,3 @@ resource "aws_vpc" "iron" {
         Name = "iron"
     }
 }
-
-
-
-/*
-내일 
-vpc 합쳐보고
-엔드포인트나 association 정해서 길 연결하기 !!!
-*/
