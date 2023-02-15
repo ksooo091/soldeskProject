@@ -6,9 +6,9 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/target-type: "ip"
     alb.ingress.kubernetes.io/scheme: "internet-facing"
-    alb.ingress.kubernetes.io/subnets: subnet-05f86fc13bc11a95e, subnet-0c9ecce7c65ccba11
+    alb.ingress.kubernetes.io/subnets: subnet-0fe35c2f4e246f078, subnet-0a7fdd4ec7d03112a
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-northeast-2:207834583394:certificate/a457c7fa-d873-4ca8-b6f5-f200579c6e49"      
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-northeast-1:207834583394:certificate/1458b9a1-f00d-41ef-876d-f580a30cba49"      
     alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
