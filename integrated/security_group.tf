@@ -53,12 +53,11 @@ resource "aws_security_group" "private-eks" {
     to_port = 22
   }
 }
-##길수님이 원하시는 요청 (RDS 가 node SG 허가)
-## private Seucurity Group
+
 resource "aws_security_group" "private-rds" {
   name = "private-rds"
   description = "rds-private"
-  vpc_id = "${aws_vpc.iron.id}"  # 이건 올바른 vpc id 로 되었음.
+  vpc_id = "${aws_vpc.iron.id}"  
   ingress {
     security_groups = [aws_security_group.test-soldesk.id]
     from_port = 3306
