@@ -1,12 +1,12 @@
 
 resource "aws_s3_bucket" "log" {
-    bucket = "soldesk-s3-test"
+    bucket = "soldesk-s3-1111"
     
     lifecycle {
       prevent_destroy = false
     }
     tags = {
-        Name = "soldesk-s3-log-test"
+        Name = "soldesk-s3-log-test111"
     }
 }
 
