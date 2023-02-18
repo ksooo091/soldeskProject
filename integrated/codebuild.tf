@@ -61,6 +61,13 @@ resource "aws_iam_role_policy" "codebuild_role_policy" {
         "codebuild:*",
         "cloudwatch:GetMetricStatistics",
         "ec2:DescribeVpcs",
+        "ec2:DescribeDhcpOptions",
+        "ec2:CreateNetworkInterface",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribeInternetGateways",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DeleteNetworkInterface",
         "ec2:DescribeSecurityGroups",
         "ec2:DescribeSubnets",
         "ecr:DescribeRepositories",
@@ -75,7 +82,9 @@ resource "aws_iam_role_policy" "codebuild_role_policy" {
         "events:PutRule",
         "events:PutTargets",
         "events:RemoveTargets",
-        "logs:GetLogEvents"
+        "logs:GetLogEvents",
+        "eks:ListClusters",
+        "eks:DescribeCluster"
 
       ],
       "Resource": "*"
@@ -97,7 +106,25 @@ resource "aws_iam_role_policy" "codebuild_role_policy" {
       ],
       "Resource": "*",
       "Effect": "Allow"
+    },
+     {
+            "Effect": "Allow",
+            "Action": "eks:DescribeCluster",
+            "Resource": "arn:aws:eks:*:*:cluster/*"
+        },
+        {
+  "Effect": "Allow",
+  "Action": "ec2:CreateNetworkInterfacePermission",
+  "Resource": "arn:aws:ec2:*:*:network-interface/*",
+  "Condition": {
+    "StringLike": {
+      "ec2:AuthorizedService": "codebuild.amazonaws.com",
+      "ec2:Subnet": [
+        "arn:aws:ec2:*:*:subnet/*"
+      ]
     }
+  }
+}
   ]
 }
 POLICY
@@ -108,6 +135,20 @@ resource "aws_codebuild_project" "codebuild_project_front" {
   description   = "front_test"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_iam_role.arn
+
+  vpc_config {
+    vpc_id = aws_vpc.iron.id
+
+    subnets = [
+      aws_subnet.private_eks2.id,
+      aws_subnet.private_eks1.id,
+    ]
+
+    security_group_ids = [
+      aws_default_security_group.iron_default_sg.id
+    ]
+  }
+
 
   artifacts {
     type = "NO_ARTIFACTS"

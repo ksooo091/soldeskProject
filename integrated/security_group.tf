@@ -1,5 +1,5 @@
 
-resource "aws_default_security_group" "bastion_iron" {
+resource "aws_default_security_group" "iron_default_sg" {
     vpc_id = "${aws_vpc.iron.id}"
 # IPV4 anywhere 0.0.0.0/0 으로 바꾸기
 # ingress 포트번호 22 만 허용
@@ -8,6 +8,12 @@ resource "aws_default_security_group" "bastion_iron" {
         self = true
         from_port = 0
         to_port = 0
+    }
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
     }
     tags = {
         Name = "iron_default"
