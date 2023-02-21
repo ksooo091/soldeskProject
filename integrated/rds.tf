@@ -20,6 +20,6 @@ resource "aws_db_instance" "iron_db" {
   identifier             = "test-mysql"
   username               = "root"
   password               = "iron1234"
-  db_name                   = "ironworks"
+  db_name                = "ironworks"
   port                   = "3306"
 }

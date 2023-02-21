@@ -1,13 +1,18 @@
 
-resource "aws_default_security_group" "bastion_iron" {
+resource "aws_default_security_group" "iron_default_sg" {
     vpc_id = "${aws_vpc.iron.id}"
-# IPV4 anywhere 0.0.0.0/0 으로 바꾸기
-# ingress 포트번호 22 만 허용
+
     ingress {
         protocol = "-1"
         self = true
         from_port = 0
         to_port = 0
+    }
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
     }
     tags = {
         Name = "iron_default"
@@ -32,8 +37,8 @@ resource "aws_security_group" "public-SG" {
 
 
 
-# Security Group
-## private Seucurity Group
+# # Security Group
+# ## private Seucurity Group
 
 # 인바운드 SSH 포트 허용, 소스를 bastion SG 로 설정하기
 resource "aws_security_group" "private-eks" {
@@ -65,11 +70,19 @@ resource "aws_security_group" "private-rds" {
     to_port = 3306
   }
      ingress {
+    cidr_blocks = [ "172.20.0.0/16" ]
+    from_port = 3306
+    protocol = "tcp"
+    to_port = 3306
+  }
+       ingress {
     security_groups = [aws_eks_cluster.iron_eks.vpc_config[0].cluster_security_group_id]
     from_port = 3306
     protocol = "tcp"
     to_port = 3306
   }
+
+
   egress {
     from_port        = 0
     to_port          = 0
