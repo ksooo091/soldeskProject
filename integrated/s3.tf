@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "log" {
-    bucket = "soldesk-s3-test"
+    bucket = "soldesk-s3-test-13445"
     
     lifecycle {
       prevent_destroy = false
