@@ -24,7 +24,6 @@ resource "aws_security_group" "bastion" {
     description = "open ssh port for bastion"
 
     vpc_id = "${aws_vpc.iron.id}"
-#ssh 만 열어두기 bastion
     ingress {
         from_port = 22
         to_port = 22
