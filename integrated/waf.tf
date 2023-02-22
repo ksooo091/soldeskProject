@@ -1,55 +1,52 @@
 
-resource "aws_wafv2_web_acl" "ironwaf" {
-  name        = "managed-rule-example"
-  description = "Example of a managed rule."
+resource "aws_wafv2_web_acl" "waf_acl" {
+  name        = "waf_web_acl_k8s"
+  description = "mMnaged rule for our project."
   scope       = "REGIONAL"
 
   default_action {
     block {}
   }
 
+
   rule {
-    name     = "rule-1"
-    priority = 1
-
+    name      = "AWS-AWSManagedRulesCommonRuleSet"
+    priority  = 1
     override_action {
-      count {}
+      none {}
     }
-
     statement {
       managed_rule_group_statement {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
-
-        rule_action_override {
-          action_to_use {
-            count {}
-          }
-
-          name = "SizeRestrictions_QUERYSTRING"
-        }
-
-        rule_action_override {
-          action_to_use {
-            count {}
-          }
-
-          name = "NoUserAgent_HEADER"
-        }
       }
     }
-
     visibility_config {
-      cloudwatch_metrics_enabled = false
-      metric_name                = "iron-rule-metric-name"
-      sampled_requests_enabled   = false
+      cloudwatch_metrics_enabled = true
+      metric_name                = "AWS-AWSManagedRulesCommonRuleSet"
+      sampled_requests_enabled   = true
     }
   }
 
-  tags = {
-    Tag1 = "Value1"
-    Tag2 = "Value2"
+  rule {
+    name      = "AWS-AWSManagedRulesSQLiRuleSet"
+    priority  = 2
+    override_action {
+      none {}
+    }
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesSQLiRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "AWS-AWSManagedRulesSQLiRuleSet"
+      sampled_requests_enabled   = true
+    }
   }
+
 
   visibility_config {
     cloudwatch_metrics_enabled = false
