@@ -5,7 +5,7 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   scope       = "REGIONAL"
 
   default_action {
-    block {}
+    allow {}
   }
 
 
