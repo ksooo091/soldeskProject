@@ -63,14 +63,14 @@ resource "aws_security_group" "private-rds" {
   name = "private-rds"
   description = "rds-private"
   vpc_id = "${aws_vpc.iron.id}"  
-  ingress {
-    security_groups = [aws_security_group.test-soldesk.id]
-    from_port = 3306
-    protocol = "tcp"
-    to_port = 3306
-  }
+#   ingress {
+#     security_groups = [aws_security_group.test-soldesk.id]
+#     from_port = 3306
+#     protocol = "tcp"
+#     to_port = 3306
+#   }
      ingress {
-    cidr_blocks = [ "172.20.0.0/16" ]
+    security_groups = [aws_security_group.bastion.id]
     from_port = 3306
     protocol = "tcp"
     to_port = 3306
