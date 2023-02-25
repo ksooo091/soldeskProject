@@ -96,7 +96,14 @@ resource "aws_security_group" "test-soldesk" {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.bastion.id]
+  }
+
+  ingress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    security_groups = [aws_default_security_group.iron_default_sg.id]
   }
     egress {
     from_port        = 0
